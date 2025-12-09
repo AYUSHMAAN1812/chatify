@@ -5,7 +5,9 @@ import jwt from "jsonwebtoken"; // allows us to implement authentication
 // We have created the token in the server and send it back to the client, that's why we passed the response as the argument
 // we will create the token and send it back in cookies to the client and show success message on successful signup or login.
 export const generateToken = (userId, res) => {
-    const token = jwt.sign({userId},process.env.JWT_SECRET,{
+    const {JWT_SECRET} = process.env;
+    if(!JWT_SECRET) throw new Error("JWT_SECRET is not configured");
+    const token = jwt.sign({userId},JWT_SECRET,{
         expiresIn:"7d",
     }); // it says which token is used by which user
     res.cookie("jwt", token, {
