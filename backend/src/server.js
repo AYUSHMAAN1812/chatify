@@ -4,6 +4,7 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const __dirname = path.resolve();
@@ -11,6 +12,8 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 // we are adding a middleware so that we can get the details of the user sends
 app.use(express.json()); // req.body
+app.use(cookieParser());
+
 console.log(ENV.PORT)
 app.use("/api/auth", authRoutes)
 app.use("/api/message", messageRoutes)
