@@ -1,7 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-
 import { generateToken } from "../lib/utils.js";
+import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+import { ENV } from "../lib/env.js";
 
 export const signup = async (req,res) => {
     const {fullName, email, password} = req.body;
@@ -51,7 +52,12 @@ export const signup = async (req,res) => {
                 profilePic: newUser.profilePic,
             }); // status = 200 means success and 201 means something created successfully
 
-            // TODO: send a welcome email to the user
+            
+            try {
+                await sendWelcomeEmail(savedUser.email, savedUser.fullName, ENV.CLIENT_URL);
+            } catch (error) {
+                console.error("Failed to send welcome email: ", error);
+            }
         }
         else
         {
