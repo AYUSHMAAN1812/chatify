@@ -1,9 +1,14 @@
 import express from "express";
 import { signup, login, logout, updateProfile } from "../controllers/auth.controller.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
+import { arcjetProtection } from "../middleware/arcjet.middleware.js";
+
 const router = express.Router();
 
-
+router.use(arcjetProtection);
+// router.get("/test", arcjetProtection, (req,res) => {
+//     res.status(200).json({message:"Test route"});
+// });
 router.post("/signup", signup);
 router.post("/login", login);
 router.post("/logout", logout); // it is best practice to use post request in logout, because in get request it might get chached and does not make any sense.
