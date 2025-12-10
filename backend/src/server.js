@@ -5,13 +5,15 @@ import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import { ENV } from "./lib/env.js";
 import cookieParser from 'cookie-parser';
+import cors from "cors";
+import { app, server } from "./lib/socket.js";
 
-const app = express();
 const __dirname = path.resolve();
 
 const PORT = ENV.PORT || 3000;
 // we are adding a middleware so that we can get the details of the user sends
-app.use(express.json()); // req.body
+app.use(express.json({limit: "5mb"})); // req.body
+app.use(cors({origin: ENV.CLIENT_URL, credentials: true})); // this allows our frontend to send cookies to our backend
 app.use(cookieParser());
 
 console.log(ENV.PORT)
@@ -29,7 +31,7 @@ if(ENV.NODE_ENV === "production")
     });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log('Server is running on port: ' + PORT);
     connectDB();
 })
