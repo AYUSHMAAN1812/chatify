@@ -1,4 +1,8 @@
+// --- CREATE WELCOME EMAIL TEMPLATE FUNCTION ---
+// Function to generate the complete HTML body for the welcome email.
+// It takes the user's name and the client application URL as arguments to personalize the content.
 export function createWelcomeEmailTemplate(name, clientURL) {
+  // Use a template literal (backticks) to return a multi-line string containing the HTML structure
   return `
   <!DOCTYPE html>
   <html lang="en">
